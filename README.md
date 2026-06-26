@@ -50,13 +50,13 @@ mkdir -p ~/.claude/skills/tech-debt-audit
 ```
 
 ```bash
-curl -o ~/.claude/skills/tech-debt-audit/SKILL.md https://raw.githubusercontent.com/ksimback/tech-debt-skill/main/SKILL.md
+curl -o ~/.claude/skills/tech-debt-audit/SKILL.md https://raw.githubusercontent.com/ecorkran/tech-debt-audit/main/SKILL.md
 ```
 
 Project-only install (just this repo):
 
 ```bash
-mkdir -p .claude/skills/tech-debt-audit && curl -o .claude/skills/tech-debt-audit/SKILL.md https://raw.githubusercontent.com/ksimback/tech-debt-skill/main/SKILL.md
+mkdir -p .claude/skills/tech-debt-audit && curl -o .claude/skills/tech-debt-audit/SKILL.md https://raw.githubusercontent.com/ksimback/tech-debt-audit/main/SKILL.md
 ```
 
 Verify it's available:
@@ -163,7 +163,9 @@ MIT. Use it, fork it, ship it. Attribution appreciated but not required.
 
 ## Credits
 
-Built on the [Claude Code Agent Skills](https://code.claude.com/docs/en/skills) standard.
+- This skill is a fork of [ksimback/tech-debt-audit:main](https://github.com/ksimback/tech-debt-skill) .  It has been updated to support context-forge project structure and naming conventions.  Flutter and Dart support has also been added.
 
+- Original repo credit:
+Built on the [Claude Code Agent Skills](https://code.claude.com/docs/en/skills) standard.
 Inspired by the experience of working with Claude Code on codebases that got really messy over time.
 
