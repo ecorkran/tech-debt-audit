@@ -54,6 +54,25 @@ Use `rg`, `ast-grep`, and language-native tooling to find concrete examples. Cit
 
 9. **Documentation drift** — README claims that don't match reality, comments that contradict adjacent code, public APIs without docstrings.
 
+### Category vocabulary
+
+Every finding's `Category` — in the findings table and in the machine-readable block — must be one of these ten kebab-case values, and nothing else:
+
+| Value | Dimension |
+|---|---|
+| `architectural-decay` | 1. Architectural decay |
+| `consistency-rot` | 2. Consistency rot |
+| `type-contract-debt` | 3. Type & contract debt |
+| `test-debt` | 4. Test debt |
+| `dependency-config-debt` | 5. Dependency & config debt |
+| `performance-resource` | 6. Performance & resource hygiene |
+| `error-handling-observability` | 7. Error handling & observability |
+| `security-hygiene` | 8. Security hygiene |
+| `documentation-drift` | 9. Documentation drift |
+| `other` | none of the above |
+
+`other` exists for findings that are genuinely real but fit none of the nine dimensions. Using it is **not** a failure — a good finding in the wrong-shaped taxonomy is still a good finding, and a rising `other` share is useful evidence that the dimensions need revisiting. What *is* a failure is inventing a category outside this list: downstream tooling cannot compare across audits when the vocabulary drifts, so an invented value is silently unusable data rather than a visible error.
+
 ## Phase 3: Deliverable
 
 ### File Naming and Location
@@ -125,7 +144,21 @@ Each subagent gets: scope (one module), the dimensions list above, the citation 
 
 ## Repeat-run mode
 
-If audit file already as specified here exists in the repo, read it first. Mark resolved findings as `RESOLVED`, update stale ones, and tag new findings with `NEW`. This turns the audit into a living document tracked over time.
+**Unless this invocation requests an independent run** (see below), repeat-run mode applies: if audit file already as specified here exists in the repo, read it first. Mark resolved findings as `RESOLVED`, update stale ones, and tag new findings with `NEW`. This turns the audit into a living document tracked over time.
+
+## Independent-run mode
+
+If the invocation is prefixed with the line:
+
+```
+INDEPENDENT RUN: do not read or update any existing audit file
+```
+
+then repeat-run mode above does **not** apply. Do not read any existing audit file, do not diff against one, and do not tag findings `RESOLVED` or `NEW`. Audit the codebase as if for the first time and write a fresh audit file.
+
+Why: repeated audits of unchanged code are used to measure the audit's own run-to-run variance. A run that reads the previous run's output is not an independent sample of that variance — it is anchored to it, which makes the measured spread look smaller than it really is.
+
+Interactive users are unaffected. Absent that line, the living-document behavior above is unchanged.
 
 ---
 
