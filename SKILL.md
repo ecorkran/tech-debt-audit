@@ -69,6 +69,32 @@ Use `rg`, `ast-grep`, and language-native tooling to find concrete examples. Cit
 - **Quick wins** — Low effort × Medium+ severity, as a checklist.
 - **Things that look bad but are actually fine** — calls you considered flagging and chose not to, with reasoning. **This section is required.** If it's empty, you didn't look hard enough.
 - **Open questions for the maintainer** — things you couldn't tell were debt vs. intentional.
+- **Machine-readable findings block** — at the very end of the audit file, after every other section, emit the block described below. This is **in addition to** the findings table, not a replacement: the same findings are serialized twice, because humans read the table and tools read the block. Every finding in the table appears in the block and vice versa.
+
+### Machine-readable findings block
+
+Emit this as the last thing in the audit file, delimited exactly as shown:
+
+<!-- squadron:findings:begin v1 -->
+```yaml
+findings:
+  - id: F001
+    category: architectural-decay
+    location: src/payments/processor.ts:1240
+    severity: Critical
+    effort: L
+    summary: 1400-line god class handling routing, validation, retry, and reconciliation
+```
+<!-- squadron:findings:end -->
+
+Rules for the block:
+
+- The two HTML comment delimiters must appear exactly as written, once each, wrapping a single fenced ```yaml block.
+- Each entry carries exactly six fields: `id`, `category`, `location`, `severity`, `effort`, `summary`.
+- `category` must be drawn from the closed vocabulary in Phase 2 — never invent a value outside it.
+- `severity` is one of `Critical`, `High`, `Medium`, `Low`; `effort` is one of `S`, `M`, `L`.
+- `summary` is the finding's Description, as prose, on one line.
+- `recommendation` is deliberately **not** in the block. It is advice for a human reader, it is the longest field, and no tool consumes it. It stays in the findings table only.
 
 ## Rules
 
